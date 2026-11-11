@@ -6,8 +6,10 @@
   <meta name="color-scheme" content="light" />
   <title>Promo Kings</title>
   <meta name="description" content="Promo Kings operations — sales, production and deliveries." />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231b3a6b'/%3E%3Cpath d='M7 22 L10 11 L14 18 L16 10 L18 18 L22 11 L25 22 Z' fill='%23f2b705'/%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c03d3d'/%3E%3Cpath d='M7 23 L9.5 12 L13 18.5 L16 9.5 L19 18.5 L22.5 12 L25 23 Z' fill='%23fff'/%3E%3C/svg%3E" />
   <link rel="stylesheet" href="css/styles.css" />
+  <!-- Apache ECharts 5.5.1 — classic script, jsdelivr only, pinned. Exposes window.echarts. -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
   <!-- config.js is a classic script so window.PROMO_CONFIG is set before the module loads -->
   <script src="config.js"></script>
   <script type="module" src="js/app.js"></script>
@@ -16,15 +18,7 @@
   <!-- ===================== LOGIN VIEW ===================== -->
   <main id="login-view" class="login" hidden>
     <form id="login-form" class="login-card" autocomplete="on" novalidate>
-      <div class="brand brand--login">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 32 32" width="32" height="32"><rect width="32" height="32" rx="7" fill="#1b3a6b"/><path d="M7 22 L10 11 L14 18 L16 10 L18 18 L22 11 L25 22 Z" fill="#f2b705"/></svg>
-        </span>
-        <span class="brand-text">
-          <strong>Promo Kings</strong>
-          <small>Operations</small>
-        </span>
-      </div>
+      <img class="login-logo" src="images/promo-kings-logo.svg" alt="Promo Kings" />
       <h1 class="login-title">Sign in</h1>
       <p class="login-sub">Use your Promo Kings staff email and password.</p>
 
@@ -54,43 +48,59 @@
   <!-- ===================== APP VIEW ===================== -->
   <div id="app-view" class="app" hidden>
     <header class="appbar">
-      <div class="brand">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 32 32" width="28" height="28"><rect width="32" height="32" rx="7" fill="#1b3a6b"/><path d="M7 22 L10 11 L14 18 L16 10 L18 18 L22 11 L25 22 Z" fill="#f2b705"/></svg>
-        </span>
-        <span class="brand-text">
-          <strong>Promo Kings</strong>
-          <small id="section-label">Sales</small>
-        </span>
+      <div class="appbar-left">
+        <img class="appbar-logo" src="images/promo-kings-logo.svg" alt="Promo Kings" />
+        <span class="appbar-sep" aria-hidden="true"></span>
+        <span class="appbar-section" id="section-label">Sales</span>
       </div>
       <div class="appbar-right">
         <span class="who" id="who" title="Signed-in user"></span>
-        <button id="signout" class="btn btn--ghost btn--sm" type="button">Sign out</button>
+        <button id="signout" class="btn btn--ghost btn--sm" type="button">
+          <span class="btn-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </span>
+          <span class="btn-txt">Sign out</span>
+        </button>
       </div>
     </header>
 
     <nav class="nav" aria-label="Sections">
+      <span class="nav-section" aria-hidden="true">Operations</span>
       <a class="nav-item" href="#/sales" data-route="sales">
-        <span class="nav-ico" aria-hidden="true">📊</span><span class="nav-txt">Sales</span>
+        <span class="nav-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+        </span>
+        <span class="nav-txt">Sales</span>
       </a>
       <a class="nav-item" href="#/production" data-route="production">
-        <span class="nav-ico" aria-hidden="true">🏭</span><span class="nav-txt">Production</span>
+        <span class="nav-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg>
+        </span>
+        <span class="nav-txt">Production</span>
       </a>
       <a class="nav-item" href="#/deliveries" data-route="deliveries">
-        <span class="nav-ico" aria-hidden="true">🚚</span><span class="nav-txt">Deliveries</span>
+        <span class="nav-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+        </span>
+        <span class="nav-txt">Deliveries</span>
       </a>
     </nav>
 
     <main id="content" class="content" aria-live="polite"><!-- section renders here --></main>
 
     <footer class="appfoot">
-      <span id="freshness" class="freshness" title="Most recent sync time in the data">Data freshness: —</span>
+      <span class="freshness" id="freshness" title="Most recent sync time in the data">
+        <span class="freshness-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
+        </span>
+        <span class="freshness-txt">Data freshness: —</span>
+      </span>
     </footer>
   </div>
 
   <!-- Boot fallback shown only if JavaScript is disabled -->
   <noscript>
-    <div style="padding:24px;font:16px system-ui;color:#13233f">
+    <div style="padding:24px;font:16px system-ui;color:#23272b">
       Promo Kings needs JavaScript enabled to run.
     </div>
   </noscript>

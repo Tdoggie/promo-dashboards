@@ -35,6 +35,7 @@ const whoEl       = $("#who");
 const signoutBtn  = $("#signout");
 const content     = $("#content");
 const freshnessEl = $("#freshness");
+const freshnessTxt = $(".freshness-txt") || freshnessEl;
 const sectionLbl  = $("#section-label");
 
 const LABELS = { sales: "Sales", production: "Production", deliveries: "Deliveries" };
@@ -131,7 +132,7 @@ function renderLimited(root, profile, role) {
 
 // ---- Freshness -----------------------------------------------------------
 function setFreshness(ts) {
-  freshnessEl.textContent = "Data freshness: " + (ts ? dateTime(ts) : "—");
+  freshnessTxt.textContent = "Data freshness: " + (ts ? dateTime(ts) : "—");
   if (ts) freshnessEl.title = "Most recent sync time in the data (" + dateTime(ts) + ")";
 }
 async function loadFreshness() {
