@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light" />
+  <title>Promo Kings</title>
+  <meta name="description" content="Promo Kings operations — sales, production and deliveries." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231b3a6b'/%3E%3Cpath d='M7 22 L10 11 L14 18 L16 10 L18 18 L22 11 L25 22 Z' fill='%23f2b705'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <!-- config.js is a classic script so window.PROMO_CONFIG is set before the module loads -->
+  <script src="config.js"></script>
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <!-- ===================== LOGIN VIEW ===================== -->
+  <main id="login-view" class="login" hidden>
+    <form id="login-form" class="login-card" autocomplete="on" novalidate>
+      <div class="brand brand--login">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="32" height="32"><rect width="32" height="32" rx="7" fill="#1b3a6b"/><path d="M7 22 L10 11 L14 18 L16 10 L18 18 L22 11 L25 22 Z" fill="#f2b705"/></svg>
+        </span>
+        <span class="brand-text">
+          <strong>Promo Kings</strong>
+          <small>Operations</small>
+        </span>
+      </div>
+      <h1 class="login-title">Sign in</h1>
+      <p class="login-sub">Use your Promo Kings staff email and password.</p>
+
+      <label class="field">
+        <span class="field-label">Email</span>
+        <input id="login-email" name="email" type="email" inputmode="email" autocomplete="username"
+               placeholder="you@promokings.co.ke" required />
+      </label>
+
+      <label class="field">
+        <span class="field-label">Password</span>
+        <input id="login-password" name="password" type="password" autocomplete="current-password"
+               placeholder="••••••••" required />
+      </label>
+
+      <p id="login-error" class="form-error" role="alert" hidden></p>
+
+      <button id="login-submit" class="btn btn--primary btn--block" type="submit">
+        <span class="btn-label">Sign in</span>
+        <span class="spinner" aria-hidden="true" hidden></span>
+      </button>
+
+      <p class="login-foot">Access is limited to Promo Kings staff accounts.</p>
+    </form>
+  </main>
+
+  <!-- ===================== APP VIEW ===================== -->
+  <div id="app-view" class="app" hidden>
+    <header class="appbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="28" height="28"><rect width="32" height="32" rx="7" fill="#1b3a6b"/><path d="M7 22 L10 11 L14 18 L16 10 L18 18 L22 11 L25 22 Z" fill="#f2b705"/></svg>
+        </span>
+        <span class="brand-text">
+          <strong>Promo Kings</strong>
+          <small id="section-label">Sales</small>
+        </span>
+      </div>
+      <div class="appbar-right">
+        <span class="who" id="who" title="Signed-in user"></span>
+        <button id="signout" class="btn btn--ghost btn--sm" type="button">Sign out</button>
+      </div>
+    </header>
+
+    <nav class="nav" aria-label="Sections">
+      <a class="nav-item" href="#/sales" data-route="sales">
+        <span class="nav-ico" aria-hidden="true">📊</span><span class="nav-txt">Sales</span>
+      </a>
+      <a class="nav-item" href="#/production" data-route="production">
+        <span class="nav-ico" aria-hidden="true">🏭</span><span class="nav-txt">Production</span>
+      </a>
+      <a class="nav-item" href="#/deliveries" data-route="deliveries">
+        <span class="nav-ico" aria-hidden="true">🚚</span><span class="nav-txt">Deliveries</span>
+      </a>
+    </nav>
+
+    <main id="content" class="content" aria-live="polite"><!-- section renders here --></main>
+
+    <footer class="appfoot">
+      <span id="freshness" class="freshness" title="Most recent sync time in the data">Data freshness: —</span>
+    </footer>
+  </div>
+
+  <!-- Boot fallback shown only if JavaScript is disabled -->
+  <noscript>
+    <div style="padding:24px;font:16px system-ui;color:#13233f">
+      Promo Kings needs JavaScript enabled to run.
+    </div>
+  </noscript>
+</body>
+</html>
