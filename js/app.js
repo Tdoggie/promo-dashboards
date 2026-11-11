@@ -139,7 +139,7 @@ async function loadFreshness() {
   setFreshness(null);
   try {
     const { data, error } = await supabase
-      .from("job_card").select("synced_at")
+      .from("v_job_card").select("synced_at")
       .order("synced_at", { ascending: false }).limit(1);
     if (!error && data && data.length) setFreshness(data[0].synced_at);
   } catch { /* leave as — */ }

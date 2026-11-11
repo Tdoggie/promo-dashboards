@@ -59,7 +59,7 @@ async function fetchYearRows(year) {
   const rows = [];
   for (let guard = 0; guard < 40; guard++) {
     const { data, error } = await supabase
-      .from("job_card").select(DASH_COLS)
+      .from("v_job_card").select(DASH_COLS)
       .gte("order_date", start).lt("order_date", end)
       .order("order_date", { ascending: true })
       .range(from, from + size - 1);
@@ -84,7 +84,7 @@ async function loadAll() {
 
 async function fetchFreshness() {
   const { data, error } = await supabase
-    .from("job_card").select("synced_at")
+    .from("v_job_card").select("synced_at")
     .order("synced_at", { ascending: false }).limit(1);
   if (error || !data || !data.length) return null;
   return data[0].synced_at;
@@ -96,7 +96,7 @@ const SEARCH_COLS =
   "done_deliveries,last_delivery_done,delivery_state,on_time,synced_at";
 
 async function searchJobCards(term, page) {
-  let q = supabase.from("job_card").select(SEARCH_COLS, { count: "exact" }).eq("is_job_card", true);
+  let q = supabase.from("v_job_card").select(SEARCH_COLS, { count: "exact" }).eq("is_job_card", true);
   const t = (term || "").trim();
   if (t) {
     const safe = t.replace(/[%,()]/g, " ");

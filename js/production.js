@@ -60,7 +60,7 @@ async function fetchYearJobCards(year) {
   const rows = [];
   for (let guard = 0; guard < 40; guard++) {
     const { data, error } = await supabase
-      .from("job_card").select(JC_COLS)
+      .from("v_job_card").select(JC_COLS)
       .eq("is_job_card", true)
       .gte("order_date", start).lt("order_date", end)
       .order("order_date", { ascending: true })
@@ -86,7 +86,7 @@ async function loadAll() {
 
 async function fetchFreshness() {
   const { data, error } = await supabase
-    .from("job_card").select("synced_at")
+    .from("v_job_card").select("synced_at")
     .order("synced_at", { ascending: false }).limit(1);
   if (error || !data || !data.length) return null;
   return data[0].synced_at;
