@@ -108,6 +108,17 @@
 .tbl th,.tbl td{ padding:7px 10px; text-align:left; border-bottom:1px solid var(--grid,#edeff0); }
 .tbl th{ font-size:.7rem; text-transform:uppercase; letter-spacing:.04em; color:var(--muted,#9ea2a5); font-weight:700; position:sticky; top:0; background:#fff; }
 .tbl td.num,.tbl th.num{ text-align:right; font-variant-numeric:tabular-nums; }
+.tbl tbody tr:hover{ background:var(--surface-wash,#f6f7f8); }
+.search-row{ display:flex; gap:8px; align-items:center; }
+.input{ flex:1 1 auto; min-width:0; padding:7px 10px; border:1px solid var(--border,#e4e6e8); border-radius:7px; font:inherit; font-size:.84rem; background:#fff; color:var(--ink,#23272b); }
+.input:focus{ outline:2px solid var(--red-300,#e0b6b6); outline-offset:-1px; }
+.detail{ display:flex; flex-direction:column; }
+.detail-row{ display:flex; justify-content:space-between; gap:16px; padding:7px 0; border-bottom:1px solid var(--grid,#edeff0); }
+.detail-row:last-child{ border-bottom:0; }
+.dk{ color:var(--muted,#9ea2a5); font-size:.8rem; }
+.dv{ color:var(--ink,#23272b); font-size:.84rem; font-weight:600; text-align:right; }
+.prog{ height:6px; border-radius:4px; background:var(--grid,#edeff0); overflow:hidden; min-width:70px; }
+.prog > i{ display:block; height:100%; background:var(--success,#2e8b57); }
 
 /* ---------- Modal (table drill) ---------- */
 #modal-root:empty{ display:none; }
