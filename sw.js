@@ -7,9 +7,11 @@
  *   - the page   : stale-while-revalidate -> the cached page paints at once while the network copy
  *                  is fetched; if it changed (a new deploy), open pages are told so they can offer a
  *                  reload, and assets no build still uses are dropped.
+ * v3: the cached page is read BEFORE it is handed to the browser (reading it afterwards failed —
+ *     the body was already used — so the cache never updated); the page check bypasses the HTTP
+ *     cache; the lifetime is extended synchronously with waitUntil.
  */
 const CACHE = 'promo-shell-v1'
-// v2: the page check bypasses the browser's 10-minute HTTP cache, or a deploy goes unseen for 10 min
 const PAGE = 'app-page'
 
 self.addEventListener('install', () => self.skipWaiting())
@@ -27,6 +29,28 @@ async function cleanup(cache, freshHtml) {
     const i = p.indexOf('assets/')
     if (i >= 0 && !keep.has(p.slice(i))) await cache.delete(req)
   }
+}
+
+async function navigate(req) {
+  const c = await caches.open(CACHE)
+  const cached = await c.match(PAGE)
+  const old = cached ? await cached.clone().text() : null
+  const done = fetch(req, { cache: 'no-cache' })
+    .then(async (res) => {
+      if (!res.ok) return res
+      const fresh = await res.clone().text()
+      await c.put(PAGE, res.clone())
+      if (old !== null && old !== fresh) {
+        await cleanup(c, fresh)
+        const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true })
+        for (const w of clients) w.postMessage({ type: 'promo-update-ready' })
+      }
+      return res
+    })
+    .catch(() => null)
+  if (cached) return { response: cached, done }
+  const res = await done
+  return { response: res || Response.error(), done: Promise.resolve() }
 }
 
 self.addEventListener('fetch', (e) => {
@@ -49,29 +73,8 @@ self.addEventListener('fetch', (e) => {
   }
 
   if (req.mode === 'navigate') {
-    e.respondWith(
-      caches.open(CACHE).then(async (c) => {
-        const cached = await c.match(PAGE)
-        const network = fetch(req, { cache: 'no-cache' })
-          .then(async (res) => {
-            if (!res.ok) return res
-            const fresh = await res.clone().text()
-            const old = cached ? await cached.clone().text() : null
-            await c.put(PAGE, res.clone())
-            if (old !== null && old !== fresh) {
-              await cleanup(c, fresh)
-              const clients = await self.clients.matchAll({ type: 'window' })
-              for (const w of clients) w.postMessage({ type: 'promo-update-ready' })
-            }
-            return res
-          })
-          .catch(() => cached || Response.error())
-        if (cached) {
-          e.waitUntil(network)
-          return cached
-        }
-        return network
-      }),
-    )
+    const p = navigate(req)
+    e.respondWith(p.then((x) => x.response))
+    e.waitUntil(p.then((x) => x.done))
   }
 })
