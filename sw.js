@@ -9,6 +9,7 @@
  *                  reload, and assets no build still uses are dropped.
  */
 const CACHE = 'promo-shell-v1'
+// v2: the page check bypasses the browser's 10-minute HTTP cache, or a deploy goes unseen for 10 min
 const PAGE = 'app-page'
 
 self.addEventListener('install', () => self.skipWaiting())
@@ -51,7 +52,7 @@ self.addEventListener('fetch', (e) => {
     e.respondWith(
       caches.open(CACHE).then(async (c) => {
         const cached = await c.match(PAGE)
-        const network = fetch(req)
+        const network = fetch(req, { cache: 'no-cache' })
           .then(async (res) => {
             if (!res.ok) return res
             const fresh = await res.clone().text()
